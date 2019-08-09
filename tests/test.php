@@ -3,6 +3,7 @@
 
 	use Gobble\Gobble;
 
-	$gobble = new Gobble() ;
-
-	echo $gobble ;
+	$gobble = new Gobble("https://www.google.com") ;
+	$gobble->send();
+	echo 'CODE: ' . $gobble->getResponseCode() . "\n" ;
+	echo 'BODY: ' . $gobble->getResponseBody() . "\n";

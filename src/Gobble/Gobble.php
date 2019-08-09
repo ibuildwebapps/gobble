@@ -37,6 +37,8 @@ class Gobble
 
 	public function setData($data)
 	{
+		if(gettype($data) == 'object')
+			$data = (array) $data ;
 		$this->data = $data ;
 	}
 
@@ -76,7 +78,7 @@ class Gobble
 	////////////////////////
 	private function initialiseOptions()
 	{
-		if (isset($options['basicAuth']))
+		if (isset($this->options['basicAuth']))
 			$this->setBasicAuth();
 
 		$this->initialiseOptionKey('useragent', CURLOPT_USERAGENT, 'Gobble/0.1 (+https://www.ibuildwebapps.com)');
@@ -92,7 +94,7 @@ class Gobble
 
 	private function initialiseOptionKey($option_key, $curl_method, $default_value)
 	{
-		if (isset($options[$option_key]))
+		if (isset($this->options[$option_key]))
 			curl_setopt($this->curl, $curl_method, $this->options[$option_key]);
 		else
 			curl_setopt($this->curl, $curl_method, $default_value);

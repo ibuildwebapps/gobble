@@ -5,6 +5,7 @@ class Gobble
 {
 	private $curl ;
 	private $uri ;
+	private $final_uri ; //URI with GET params attached
 	private $method ;   //REST VERB
 	private $data ; //Array
 	private $options ; //Array
@@ -17,6 +18,10 @@ class Gobble
 	*/
 	public function __construct($uri = '', $method = "GET", $data = array(), $options = array())
 	{
+		$this->curl = curl_init();
+		//curl_setopt($this->curl, CURLOPT_VERBOSE, true) ;
+		curl_setopt($this->curl, CURLINFO_HEADER_OUT, true);
+
 		$this->setURI($uri);
 		$this->setMethod($method);
 		$this->setData($data) ;
@@ -26,6 +31,7 @@ class Gobble
 	public function setURI($uri)
 	{
 		$this->uri = $uri ;
+		curl_setopt($this->curl, CURLOPT_URL, $this->uri) ;
 	}
 
 	public function setMethod($method)
@@ -47,7 +53,6 @@ class Gobble
 		$this->options = $options ;
 		$this->initialiseOptions();
 
-		$this->curl = curl_init() ;
 		if(!$this->curl){
 			throw new \Exception('Could not initialise curl.') ;
 		}
@@ -73,6 +78,11 @@ class Gobble
 	public function getResponseBody()
 	{
 		return $this->responseBody;
+	}
+
+	public function getSendHeaders()
+	{
+		return curl_getinfo($this->curl, CURLINFO_HEADER_OUT) ;
 	}
 
 	////////////////////////

@@ -3,4 +3,6 @@
 
 	use Gobble\Gobble;
 
-	echo Gobble::init() ;
+	$gobble = new Gobble() ;
+
+	echo $gobble ;

@@ -119,12 +119,17 @@ class Gobble
 	private function prepareGETPayload()
 	{
 		curl_setopt($this->curl, CURLOPT_HTTPGET, true);
+		$params = '?' ;
+		foreach($this->data AS $key => $value)
+			$params .= '&' . $key . '=' . $value ;
+		$this->final_uri = $this->uri . $params ;
+		curl_setopt($this->curl, CURLOPT_URL, $this->final_uri) ;
 	}
 
 	private function setBasicAuth()
 	{
-		$username = $this->options['basicAuth']['username'] ;
-		$password = $this->options['basicAuth']['password'] ;
+		$username = $this->options['basic_auth']['username'] ;
+		$password = $this->options['basic_auth']['password'] ;
 		curl_setopt($this->curl, CURLOPT_USERPWD, $username . ':' . $password) ;
 	}
 }

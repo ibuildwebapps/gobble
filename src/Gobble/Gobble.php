@@ -91,7 +91,7 @@ class Gobble
 		if (isset($this->options['basicAuth']))
 			$this->setBasicAuth();
 
-		$this->initialiseOptionKey('useragent', CURLOPT_USERAGENT, 'Gobble/0.1 (+https://www.ibuildwebapps.com)');
+		$this->initialiseOptionKey('useragent', CURLOPT_USERAGENT, 'Gobble/1.0 (https://github.com/ibuildwebapps/gobble)');
 		$this->initialiseOptionKey('follow_location', CURLOPT_FOLLOWLOCATION, true);
 		$this->initialiseOptionKey('fail_on_error', CURLOPT_FAILONERROR, true);
 		$this->initialiseOptionKey('return_transfer', CURLOPT_RETURNTRANSFER, true);
@@ -119,10 +119,14 @@ class Gobble
 	private function prepareGETPayload()
 	{
 		curl_setopt($this->curl, CURLOPT_HTTPGET, true);
+
 		$params = '?' ;
 		foreach($this->data AS $key => $value)
 			$params .= '&' . $key . '=' . $value ;
-		$this->final_uri = $this->uri . $params ;
+
+        if(strlen($params) > 1) //Don't append a single question mark
+		    $this->final_uri = $this->uri . $params ;
+
 		curl_setopt($this->curl, CURLOPT_URL, $this->final_uri) ;
 	}
 

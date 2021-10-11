@@ -139,8 +139,9 @@ class Gobble
         foreach ($this->data as $key => $value)
             $params .= '&' . $key . '=' . $value;
 
+        $this->final_uri = $this->uri ;
         if (strlen($params) > 1) //Don't append a single question mark
-            $this->final_uri = $this->uri . $params;
+            $this->final_uri .= $params;
 
         curl_setopt($this->curl, CURLOPT_URL, $this->final_uri);
     }

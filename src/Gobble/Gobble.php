@@ -41,11 +41,22 @@ class Gobble
             $this->method = $method;
     }
 
+    //This is a destructive operation
     public function setData($data)
     {
         if (gettype($data) == 'object')
             $data = (array)$data;
         $this->data = $data;
+    }
+
+    public function addData($data)
+    {
+        if(gettype($data) == 'array')
+            return false ;
+        foreach($data AS $k => $v)
+            $this->data[$k] = $v ;
+
+        return true ;
     }
 
     public function setOptions($options)

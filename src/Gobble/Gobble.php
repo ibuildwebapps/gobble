@@ -125,6 +125,7 @@ class Gobble
         $this->initialiseOptionKey('connect_timeout', CURLOPT_CONNECTTIMEOUT, 10);
         $this->initialiseOptionKey('ssl_verify_host', CURLOPT_SSL_VERIFYHOST, false);
         $this->initialiseOptionKey('ssl_verify_peer', CURLOPT_SSL_VERIFYPEER, false);
+        $this->initialiseOptionKey('ip_resolve', CURLOPT_IPRESOLVE, CURL_IPRESOLVE_WHATEVER);
 
     }
 

@@ -46,6 +46,7 @@ class Gobble
     {
         if (gettype($data) == 'object')
             $data = (array)$data;
+
         $this->data = $data;
     }
 
@@ -75,11 +76,12 @@ class Gobble
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
     }
 
-    public function send()
+    //Output format is used to quickly set up JSON requests etc.
+    public function send($outputFormat = 'form')
     {
         //Prepare data
         if ($this->method == 'POST')
-            $this->preparePOSTPayload();
+            $this->preparePOSTPayload($outputFormat);
         else if ($this->method == 'GET')
             $this->prepareGETPayload();
 
@@ -142,10 +144,23 @@ class Gobble
             curl_setopt($this->curl, $curl_method, $default_value);
     }
 
-    private function preparePOSTPayload()
+    private function preparePOSTPayload($outputFormat)
     {
-        curl_setopt($this->curl, CURLOPT_POST, true);
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->data);
+        switch($outputFormat)
+        {
+            case 'form':
+                curl_setopt($this->curl, CURLOPT_POST, true);
+                curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->data);
+                break ;
+            case 'json':
+                $payload = json_encode($this->data);
+                // Attach encoded JSON string to the POST fields
+                curl_setopt($this->curl, CURLOPT_POSTFIELDS, $payload);
+                // Set the content type to application/json
+                curl_setopt($this->curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+            default:
+                break ;
+        }
     }
 
     private function prepareGETPayload()

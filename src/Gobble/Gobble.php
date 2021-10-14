@@ -70,6 +70,11 @@ class Gobble
         }
     }
 
+    public function setHeaders($headers)
+    {
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
+    }
+
     public function send()
     {
         //Prepare data
